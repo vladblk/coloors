@@ -3,13 +3,167 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Muli:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./style.css">
   <title>Coloors</title>
 </head>
 <body>
   
+  <div class="colors-container">
+    <!-- COLOR 1 -->
+    <div class="color">
+      <h2>Hex</h2>
+
+      <div class="color__controls">
+        <button class="color__controls-adjust">
+          <i class="fas fa-sliders-h"></i>
+        </button>
+        <button class="color__controls-lock">
+          <i class="fas fa-lock-open"></i>
+        </button>
+      </div>
+
+      <div class="color__slider">
+        <button class="color_slider-adjustment"></button>
+        <span>Hue</span>
+        <input type="range" min="0" max="360" step="1" name="hue" class="color__slider-hue" data-hue="0">
+
+        <span>Brightness</span>
+        <input type="range" min="0" max="1" step="0.01" name="brightness" class="color__slider-brightness" data-bright="0">
+
+        <span>Saturation</span>
+        <input type="range" min="0" max="1" step="0.01" name="saturation" class="color__slider-saturation" data-sat="0">
+      </div>
+    </div>
+
+    <!-- COLOR 2 -->
+    <div class="color">
+      <h2>Hex</h2>
+
+      <div class="color__controls">
+        <button class="color__controls-adjust">
+          <i class="fas fa-sliders-h"></i>
+        </button>
+        <button class="color__controls-lock">
+          <i class="fas fa-lock-open"></i>
+        </button>
+      </div>
+
+      <div class="color__slider">
+        <button class="color_slider-adjustment"></button>
+        <span>Hue</span>
+        <input type="range" min="0" max="360" step="1" name="hue" class="color__slider-hue" data-hue="1">
+
+        <span>Brightness</span>
+        <input type="range" min="0" max="1" step="0.01" name="brightness" class="color__slider-brightness" data-bright="1">
+
+        <span>Saturation</span>
+        <input type="range" min="0" max="1" step="0.01" name="saturation" class="color__slider-saturation" data-sat="1">
+      </div>
+    </div>
+
+    <!-- COLOR 3 -->
+    <div class="color">
+      <h2>Hex</h2>
+
+      <div class="color__controls">
+        <button class="color__controls-adjust">
+          <i class="fas fa-sliders-h"></i>
+        </button>
+        <button class="color__controls-lock">
+          <i class="fas fa-lock-open"></i>
+        </button>
+      </div>
+
+      <div class="color__slider">
+        <button class="color_slider-adjustment"></button>
+        <span>Hue</span>
+        <input type="range" min="0" max="360" step="1" name="hue" class="color__slider-hue" data-hue="2">
+
+        <span>Brightness</span>
+        <input type="range" min="0" max="1" step="0.01" name="brightness" class="color__slider-brightness" data-bright="2">
+
+        <span>Saturation</span>
+        <input type="range" min="0" max="1" step="0.01" name="saturation" class="color__slider-saturation" data-sat="2">
+      </div>
+    </div>
+
+    <!-- COLOR 4 -->
+    <div class="color">
+      <h2>Hex</h2>
+
+      <div class="color__controls">
+        <button class="color__controls-adjust">
+          <i class="fas fa-sliders-h"></i>
+        </button>
+        <button class="color__controls-lock">
+          <i class="fas fa-lock-open"></i>
+        </button>
+      </div>
+
+      <div class="color__slider">
+        <button class="color_slider-adjustment"></button>
+        <span>Hue</span>
+        <input type="range" min="0" max="360" step="1" name="hue" class="color__slider-hue" data-hue="3">
+
+        <span>Brightness</span>
+        <input type="range" min="0" max="1" step="0.01" name="brightness" class="color__slider-brightness" data-bright="3">
+
+        <span>Saturation</span>
+        <input type="range" min="0" max="1" step="0.01" name="saturation" class="color__slider-saturation" data-sat="3">
+      </div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="panel__control">
+      <button class="panel__control-library">
+        <i class="fas fa-book-open"></i>
+        <p>Library</p>
+      </button>
+    </div>
+
+    <div class="panel__control">
+      <button class="panel__control-generate">
+        <i class="fas fa-book-sync"></i>
+        <p>Generate</p>
+      </button>
+    </div>
+
+    <div class="panel__control">
+      <button class="panel__control-save">
+        <i class="fas fa-book-save"></i>
+        <p>Save</p>
+      </button>
+    </div>
+  </div>
 
 
+
+  <div class="copy__container">
+    <div class="copy__container-popup">
+      <h3>Copied to clipboard!</h3>
+      <h4>&#128077;</h4>
+    </div>
+  </div>
+
+  <div class="save__container">
+    <div class="save__container-popup">
+      <button class="save__container-popup-close">X</button>
+      <h4>Give a name to your pallete</h4>
+      <input type="text" max-length="35" class="save-name">
+      <button type="submit" class="save__container-popup-save">Save</button>
+    </div>
+  </div>
+
+  <div class="library__container">
+    <div class="library__container-popup">
+      <button class="library__container-popup-close">X</button>
+      <h4>Pick your pallete</h4>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js" integrity="sha256-KzZiKy0DWYsnwMF+X1DvQngQ2/FxF7MF3Ff72XcpuPs=" crossorigin="anonymous"></script>
   <script src="./app.js"></script>
 </body>
 </html>
