@@ -73,12 +73,10 @@ path, i, svg {
 
 .colors-container .color__sliders {
   background: white;
-  opacity: 0;
   padding: 1rem;
   width: 80%;
   border-top-right-radius: 1rem;
   border-top-left-radius: 1rem;
-  pointer-events: none;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -88,10 +86,21 @@ path, i, svg {
           flex-direction: column;
   position: absolute;
   bottom: 0%;
-  -webkit-transform: translateY(100px);
-          transform: translateY(100px);
   -webkit-transition: all .5s ease-in-out;
   transition: all .5s ease-in-out;
+}
+
+.colors-container .color__sliders-hue, .colors-container .color__sliders-brightness, .colors-container .color__sliders-saturation {
+  -webkit-appearance: none;
+  margin: 1rem 0rem;
+  width: 100%;
+  position: relative;
+  border-radius: 1rem;
+  cursor: pointer;
+}
+
+.colors-container .color__sliders-hue:focus, .colors-container .color__sliders-hue:focus, .colors-container .color__sliders-hue:focus, .colors-container .color__sliders-brightness:focus, .colors-container .color__sliders-brightness:focus, .colors-container .color__sliders-brightness:focus, .colors-container .color__sliders-saturation:focus, .colors-container .color__sliders-saturation:focus, .colors-container .color__sliders-saturation:focus {
+  outline: none;
 }
 
 .colors-container .color__sliders.active {
@@ -109,6 +118,9 @@ path, i, svg {
   border-top-right-radius: 1rem;
   border-bottom-left-radius: 1rem;
   border: none;
+  background-color: black;
+  color: white;
+  font-weight: bold;
 }
 
 .panel {
