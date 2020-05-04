@@ -149,6 +149,10 @@ path, i, svg {
   border-radius: 1rem;
 }
 
+.panel__control-btn:focus {
+  outline: none;
+}
+
 .panel__control-text {
   font-size: inherit;
 }
