@@ -2,7 +2,6 @@
 const colorContainers = document.querySelectorAll('.color');
 const generateColorsBtn = document.querySelector('.panel__control-btn');
 const sliders = document.querySelectorAll('input[type="range"]');
-console.log(sliders);
 const currentHexes = document.querySelector('.color h2');
 
 let initialColors;
@@ -108,6 +107,9 @@ const hslControls = (e) => {
   
   // update the containers background color
   colorContainers[index].style.backgroundColor = color;
+
+  // update the background color of the sliders on change
+  colorizeSliders(color, hue, brightness, saturation);
 };
 
 const updateUI = (index) => {
@@ -133,7 +135,6 @@ const updateUI = (index) => {
     initialColorHex[index].innerText = `Initial color ${initialColors[index]}`;
   }
   
-
   // update the contrast for h2 text and buttons
   checkContrast(color, hexText);
   checkContrast(color, initialColorHex[index]);
