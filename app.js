@@ -1,6 +1,6 @@
 // GLOBAL SELECTIONS AND VARIABLES
 const colorContainers = document.querySelectorAll('.color');
-const generateColorsBtn = document.querySelector('.panel__control-btn');
+const generateColorsBtn = document.querySelector('.panel__control-generate');
 const sliders = document.querySelectorAll('input[type="range"]');
 const currentHexes = document.querySelectorAll('.color h2');
 const copyPopUp = document.querySelector('.copy__container');
@@ -36,8 +36,13 @@ const displayColor = () => {
     // update each color containers h2 text
     hexText.innerText = hexColor;
 
-    // check the contrast for each color container and modify the color of the h2 based on the color's contrast
+    // check the contrast for each color container and modify the color of the h2 and control buttons based on the color's contrast
     checkContrast(hexColor, hexText);
+
+    const controlIcons = container.querySelectorAll('.color__controls button');
+    for(const icon of controlIcons){
+      checkContrast(hexColor, icon);
+    };
 
     // COLORIZE SLIDERS
     // get the color of each container
@@ -239,3 +244,5 @@ closeAdjustBtn.forEach( (btn, index) => {
     closeAdjustmentContainer(index);
   });
 });
+
+generateColorsBtn.addEventListener('click', displayColor);
