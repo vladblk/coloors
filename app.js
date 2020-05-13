@@ -7,9 +7,11 @@ const copyPopUp = document.querySelector('.copy__container');
 const copyPopUpBox = document.querySelector('.copy__container-popup');
 const slidersContainers = document.querySelectorAll('.color__sliders');
 const adjustBtn = document.querySelectorAll('.color__controls-adjust');
+const lockBtn = document.querySelectorAll('.color__controls-lock');
 const closeAdjustBtn = document.querySelectorAll('.color__sliders-close-adjustment');
 
 let initialColors;
+
 
 // FUNCTIONS
 // Generate hex code function
@@ -24,29 +26,34 @@ const displayColor = () => {
 
   colorContainers.forEach( (container) => {
     // get the h2 from all color containers
-    const hexText = container.children[0];
+    let hexText = container.children[0];
     // generate a random hex color code
-    const hexColor = generateHex();
+    const randomColor = generateHex();
+    
 
     // add the colors to the array
-    initialColors.push(chroma(hexColor).hex());
+    if(container.classList.contains('locked')){
+      return initialColors.push(hexText.innerText);
+    } else {
+      initialColors.push(randomColor.hex());
+    }
 
     // update each color containers background color
-    container.style.backgroundColor = hexColor;
+    container.style.backgroundColor = randomColor;
     // update each color containers h2 text
-    hexText.innerText = hexColor;
+    hexText.innerText = randomColor;
 
     // check the contrast for each color container and modify the color of the h2 and control buttons based on the color's contrast
-    checkContrast(hexColor, hexText);
+    checkContrast(randomColor, hexText);
 
     const controlIcons = container.querySelectorAll('.color__controls button');
     for(const icon of controlIcons){
-      checkContrast(hexColor, icon);
+      checkContrast(randomColor, icon);
     };
 
     // COLORIZE SLIDERS
     // get the color of each container
-    const color = chroma(hexColor);
+    const color = chroma(randomColor);
     // get the sliders of each container
     const containerSliders = container.querySelectorAll('input[type="range"]');
     // get the hue of each container slider input
@@ -134,20 +141,9 @@ const updateUI = (index) => {
 
   // change the text of the h2 with the new color that we changed from the slider (converting back to hex code)
   hexText.innerText = color.hex();
-
-  // get the intial color element
-  const initialColorHex = document.querySelectorAll('.initial-color');
-
-  // display the initial color on change
-  if(color.hex() !== hexText.innerText){
-    initialColorHex[index].innerText = '';
-  } else {
-    initialColorHex[index].innerText = `Initial color ${initialColors[index]}`;
-  }
   
   // update the contrast for h2 text and buttons
   checkContrast(color, hexText);
-  checkContrast(color, initialColorHex[index]);
   for(const icon of controlIcons){
     checkContrast(color, icon);
   }
@@ -205,7 +201,20 @@ const closeAdjustmentContainer = (index) => {
   slidersContainers[index].classList.remove('active');
 };
 
+// lock function
+const lockContainer = (index) => {
+  colorContainers[index].classList.toggle('locked');
 
+  const lockIcon = lockBtn[index].children[0];
+
+  if(colorContainers[index].classList.contains('locked')){
+    lockIcon.classList.remove('fa-lock-open');
+    lockIcon.classList.add('fa-lock');
+  } else {
+    lockIcon.classList.remove('fa-lock');
+    lockIcon.classList.add('fa-lock-open');
+  }
+};
 
 displayColor();
 
@@ -242,6 +251,12 @@ adjustBtn.forEach( (btn, index) => {
 closeAdjustBtn.forEach( (btn, index) => {
   btn.addEventListener('click', () => {
     closeAdjustmentContainer(index);
+  });
+});
+
+lockBtn.forEach( (btn, index) => {
+  btn.addEventListener('click', () => {
+    lockContainer(index);
   });
 });
 
