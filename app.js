@@ -2,7 +2,9 @@
 const colorContainers = document.querySelectorAll('.color');
 const generateColorsBtn = document.querySelector('.panel__control-btn');
 const sliders = document.querySelectorAll('input[type="range"]');
-const currentHexes = document.querySelector('.color h2');
+const currentHexes = document.querySelectorAll('.color h2');
+const copyPopUp = document.querySelector('.copy__container');
+const copyPopUpBox = document.querySelector('.copy__container-popup');
 
 let initialColors;
 
@@ -165,6 +167,29 @@ const resetInputs = () => {
   });
 };
 
+const copyToClipboard = (hex) => {
+  // create a text area
+  const el = document.createElement('textarea');
+  // each text area will have the value of each h2
+  el.value = hex.innerText;
+  document.body.appendChild(el);
+
+  // select the element
+  el.select();
+  // execute the copy command
+  document.execCommand('copy');
+  // remove the element
+  document.body.removeChild(el);
+
+
+  // pop-up animation
+  copyPopUpBox.classList.add('active');
+  copyPopUp.classList.add('active');
+};
+
+
+
+
 
 displayColor();
 
@@ -179,4 +204,15 @@ colorContainers.forEach( (container, index) => {
   container.addEventListener('input', () => {
     updateUI(index);
   });
+});
+
+currentHexes.forEach( (hex) => {
+  hex.addEventListener('click', () => {
+    copyToClipboard(hex);
+  });
+});
+
+copyPopUp.addEventListener('transitionend', () => {
+  copyPopUp.classList.remove('active');
+  copyPopUpBox.classList.remove('active');
 });
