@@ -5,6 +5,9 @@ const sliders = document.querySelectorAll('input[type="range"]');
 const currentHexes = document.querySelectorAll('.color h2');
 const copyPopUp = document.querySelector('.copy__container');
 const copyPopUpBox = document.querySelector('.copy__container-popup');
+const slidersContainers = document.querySelectorAll('.color__sliders');
+const adjustBtn = document.querySelectorAll('.color__controls-adjust');
+const closeAdjustBtn = document.querySelectorAll('.color__sliders-close-adjustment');
 
 let initialColors;
 
@@ -153,11 +156,13 @@ const resetInputs = () => {
       const hueValue = chroma(hueColor).hsl()[0];
 
       slider.value = Math.floor(hueValue);
+
     } else if(slider.name === 'brightness'){
       const brightnessColor = initialColors[slider.getAttribute('data-bright')];
       const brightnessValue = chroma(brightnessColor).hsl()[2];
 
       slider.value = brightnessValue.toFixed(2);
+      
     } else if(slider.name === 'saturation'){
       const saturationColor = initialColors[slider.getAttribute('data-sat')];
       const saturationValue = chroma(saturationColor).hsl()[1];
@@ -181,13 +186,19 @@ const copyToClipboard = (hex) => {
   // remove the element
   document.body.removeChild(el);
 
-
   // pop-up animation
   copyPopUpBox.classList.add('active');
   copyPopUp.classList.add('active');
 };
 
 
+// open and close sliders container functions
+const openAdjustmentContainer = (index) => {
+  slidersContainers[index].classList.toggle('active');
+};
+const closeAdjustmentContainer = (index) => {
+  slidersContainers[index].classList.remove('active');
+};
 
 
 
@@ -215,4 +226,16 @@ currentHexes.forEach( (hex) => {
 copyPopUp.addEventListener('transitionend', () => {
   copyPopUp.classList.remove('active');
   copyPopUpBox.classList.remove('active');
+});
+
+adjustBtn.forEach( (btn, index) => {
+  btn.addEventListener('click', () => {
+    openAdjustmentContainer(index);
+  });
+});
+
+closeAdjustBtn.forEach( (btn, index) => {
+  btn.addEventListener('click', () => {
+    closeAdjustmentContainer(index);
+  });
 });
