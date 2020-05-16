@@ -3,14 +3,19 @@ const colorContainers = document.querySelectorAll('.color');
 const generateColorsBtn = document.querySelector('.panel__control-generate');
 const sliders = document.querySelectorAll('input[type="range"]');
 const currentHexes = document.querySelectorAll('.color h2');
-const copyPopUp = document.querySelector('.copy__container');
+
+const copyContainer = document.querySelector('.copy__container');
 const copyPopUpBox = document.querySelector('.copy__container-popup');
+
 const slidersContainers = document.querySelectorAll('.color__sliders');
 const adjustBtn = document.querySelectorAll('.color__controls-adjust');
 const lockBtn = document.querySelectorAll('.color__controls-lock');
 const closeAdjustBtn = document.querySelectorAll('.color__sliders-close-adjustment');
 
 let initialColors;
+
+// Palettes saved to local storage
+let savePalettes = [];
 
 
 // FUNCTIONS
@@ -189,7 +194,7 @@ const copyToClipboard = (hex) => {
 
   // pop-up animation
   copyPopUpBox.classList.add('active');
-  copyPopUp.classList.add('active');
+  copyContainer.classList.add('active');
 };
 
 
@@ -219,6 +224,43 @@ const lockContainer = (index) => {
 displayColor();
 
 
+// SAVE TO PALETTE AND LOCAL STORAGE
+const saveBtn = document.querySelector('.panel__control-save');
+const submitSave = document.querySelector('.save__container-popup-save');
+const closeSavePopUpBox = document.querySelector('.save__container-popup-close');
+const saveContainer = document.querySelector('.save__container');
+const savePopUpBox = document.querySelector('.save__container-popup');
+const saveInput = document.querySelector('.save__container-popup-input');
+
+// SAVE TO PALETTE AND LOCAL STORAGE FUNCTIONS
+const openPaletteSave = () => {
+  saveContainer.classList.add('active');
+  savePopUpBox.classList.add('active');
+};
+const closePaletteSave = () => {
+  saveContainer.classList.remove('active');
+  savePopUpBox.classList.remove('active');
+}
+
+const submitPalette = () => {
+  saveContainer.classList.remove('active');
+  savePopUpBox.classList.remove('active');
+
+  savePalettes.push(initialColors);
+  console.log(savePalettes);
+}
+
+// SAVE TO PALETTE AND LOCAL STORAGE EVENT LISTENERS
+saveBtn.addEventListener('click', openPaletteSave);
+closeSavePopUpBox.addEventListener('click', closePaletteSave);
+submitSave.addEventListener('click', submitPalette);
+
+
+
+
+
+
+
 // EVENT LISTENERS
 
 sliders.forEach( (slider) => {
@@ -237,8 +279,8 @@ currentHexes.forEach( (hex) => {
   });
 });
 
-copyPopUp.addEventListener('transitionend', () => {
-  copyPopUp.classList.remove('active');
+copyContainer.addEventListener('transitionend', () => {
+  copyContainer.classList.remove('active');
   copyPopUpBox.classList.remove('active');
 });
 
