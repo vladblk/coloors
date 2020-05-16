@@ -241,6 +241,17 @@ path, i, svg {
           transform: translateY(-2rem);
 }
 
+.copy__container-popup-close, .save__container-popup-close, .library__container-popup-close {
+  position: absolute;
+  top: 13px;
+  right: 20px;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+
 .copy__container-popup.active, .save__container-popup.active, .library__container-popup.active {
   -webkit-transform: translateY(0rem);
           transform: translateY(0rem);
@@ -248,5 +259,23 @@ path, i, svg {
 
 .copy__container-popup h4, .save__container-popup h4, .library__container-popup h4 {
   font-size: 2rem;
+  padding: 3rem;
+  margin-top: 1rem;
+}
+
+.copy__container-popup-input, .save__container-popup-input, .library__container-popup-input {
+  font-size: 1.5rem;
+  padding: 1rem;
+}
+
+.copy__container-popup-save, .save__container-popup-save, .library__container-popup-save {
+  font-size: 1.2rem;
+  margin: 3rem;
+  padding: 1rem 2rem;
+  background: #1f213f;
+  border: none;
+  color: white;
+  cursor: pointer;
+  border-radius: 1rem;
 }
 /*# sourceMappingURL=style.css.map */
