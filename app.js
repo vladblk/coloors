@@ -275,6 +275,11 @@ const saveContainer = document.querySelector('.save__container');
 const savePopUpBox = document.querySelector('.save__container-popup');
 const saveInput = document.querySelector('.save__container-popup-input');
 
+const libraryBtn = document.querySelector('.panel__control-library');
+const libraryContainer = document.querySelector('.library__container');
+const libraryPopUpBox = document.querySelector('.library__container-popup');
+const closeLibraryPopUpBox = document.querySelector('.library__container-popup-close');
+
 // SAVE TO PALETTE AND LOCAL STORAGE FUNCTIONS
 const openPaletteSave = () => {
   saveContainer.classList.add('active');
@@ -326,9 +331,53 @@ const savePalette = () => {
 
   // reset the input value after saving
   saveInput.value = '';
+
+  // generate library
+  generateLibrary(paletteObj);
+};
+
+const openLibrary = () => {
+  libraryContainer.classList.add('active');
+  libraryPopUpBox.classList.add('active');
+};
+const closeLibrary = () => {
+  libraryContainer.classList.remove('active');
+  libraryPopUpBox.classList.remove('active');
+};
+
+const generateLibrary = (paletteObj) => {
+  const paletteContainer = document.createElement('div');
+  paletteContainer.classList.add('library__container-popup__palette-container');
+
+  const paletteContainerTitle = document.createElement('h4');
+  paletteContainerTitle.innerText = paletteObj.name;
+  
+  const paletteContainerPreview = document.createElement('div');
+  paletteContainerPreview.classList.add('library__container-popup__palette-container-preview');
+
+  paletteObj.colors.forEach( (color) => {
+    const colorDiv = document.createElement('div');
+    colorDiv.style.backgroundColor = color;
+    paletteContainerPreview.appendChild(colorDiv);
+  });
+
+  const paletteContainerSelectBtn = document.createElement('button');
+  paletteContainerSelectBtn.classList.add('library__container-popup__palette-container-select');
+  paletteContainerSelectBtn.classList.add(paletteObj.index);
+  paletteContainerSelectBtn.innerText = 'Select';
+
+  // append to library
+  paletteContainer.appendChild(paletteContainerTitle);
+  paletteContainer.appendChild(paletteContainerPreview);
+  paletteContainer.appendChild(paletteContainerSelectBtn);
+
+  libraryPopUpBox.appendChild(paletteContainer);
 };
 
 // SAVE TO PALETTE AND LOCAL STORAGE EVENT LISTENERS
 saveBtn.addEventListener('click', openPaletteSave);
 closeSavePopUpBox.addEventListener('click', closePaletteSave);
 submitSave.addEventListener('click', savePalette);
+
+libraryBtn.addEventListener('click', openLibrary);
+closeLibraryPopUpBox.addEventListener('click', closeLibrary);
