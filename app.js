@@ -14,8 +14,7 @@ const closeAdjustBtn = document.querySelectorAll('.color__sliders-close-adjustme
 
 let initialColors;
 
-// Palettes saved to local storage
-let savedPalettes = [];
+
 
 
 // FUNCTIONS
@@ -221,7 +220,7 @@ const lockContainer = (index) => {
   }
 };
 
-displayColor();
+
 
 // EVENT LISTENERS
 
@@ -280,72 +279,11 @@ const libraryContainer = document.querySelector('.library__container');
 const libraryPopUpBox = document.querySelector('.library__container-popup');
 const closeLibraryPopUpBox = document.querySelector('.library__container-popup-close');
 
+// Palettes saved to local storage
+let savedPalettes = [];
+
 // SAVE TO PALETTE AND LOCAL STORAGE FUNCTIONS
-const openPaletteSave = () => {
-  saveContainer.classList.add('active');
-  savePopUpBox.classList.add('active');
-
-  saveInput.focus();
-};
-const closePaletteSave = () => {
-  saveContainer.classList.remove('active');
-  savePopUpBox.classList.remove('active');
-};
-
-const saveToLocal = (paletteObj) => {
-  let localPalettes;
-
-  if(localStorage.getItem('palettes') === null){
-    localPalettes = [];
-  } else {
-    localPalettes = JSON.parse(localStorage.getItem('palettes'));
-  }
-
-  localPalettes.push(paletteObj);
-  localStorage.setItem('palettes', JSON.stringify(localPalettes));
-};
-
-const savePalette = () => {
-  saveContainer.classList.remove('active');
-  savePopUpBox.classList.remove('active');
-
-  const paletteName = saveInput.value;
-  const paletteColorsArr = [];
-
-  currentHexes.forEach( (hex) => {
-    paletteColorsArr.push(hex.innerText);
-  });
-
-  // Generate Object
-  const paletteIndex = savedPalettes.length;
-  const paletteObj = {
-    name: paletteName,
-    colors: paletteColorsArr,
-    index: paletteIndex 
-  }
-
-  savedPalettes.push(paletteObj); // [{}, {}, {}]
-  
-  // save to local storage
-  saveToLocal(paletteObj);
-
-  // reset the input value after saving
-  saveInput.value = '';
-
-  // generate library
-  generateLibrary(paletteObj);
-};
-
-const openLibrary = () => {
-  libraryContainer.classList.add('active');
-  libraryPopUpBox.classList.add('active');
-};
-const closeLibrary = () => {
-  libraryContainer.classList.remove('active');
-  libraryPopUpBox.classList.remove('active');
-};
-
-const generateLibrary = (paletteObj) => {
+const generatePallete = (palette, paletteObj) => {
   const paletteContainer = document.createElement('div');
   paletteContainer.classList.add('library__container-popup__palette-container');
 
@@ -372,7 +310,142 @@ const generateLibrary = (paletteObj) => {
   paletteContainer.appendChild(paletteContainerSelectBtn);
 
   libraryPopUpBox.appendChild(paletteContainer);
+
+  // attach event to the library select palette button
+  paletteContainerSelectBtn.addEventListener('click', () => {
+    // close the library after selecting a palette
+    closeLibrary();
+
+    // get the index of the selected pelette container
+    // const paletteIndex = e.target.classList[1];
+    const paletteIndex = paletteObj.index;
+
+    // reset the inital colors array
+    initialColors = [];
+    
+    palette[paletteIndex].colors.forEach( (color, index) => {
+      // push the saved colors in the initial colors array
+      initialColors.push(color);
+
+      // update the color containers with the saved colors
+      colorContainers[index].style.backgroundColor = color;
+
+      // update UI with each saved color hex text and contrast
+      updateUI(index);
+
+      // update sliders colors
+      const c = chroma(color);
+      const sliders = slidersContainers[index].querySelectorAll('input[type="range"]');
+      // select the hue slider
+      const hue = sliders[0];
+      // select the brightness slider
+      const brightness = sliders[1];
+      // select the saturation slider
+      const saturation = sliders[2];
+
+      colorizeSliders(c, hue, brightness, saturation);
+    });
+
+    // reset sliders for the saved colors
+    resetInputs();
+  });
 };
+
+const openPaletteSave = () => {
+  saveContainer.classList.add('active');
+  savePopUpBox.classList.add('active');
+
+  saveInput.focus();
+};
+const closePaletteSave = () => {
+  saveContainer.classList.remove('active');
+  savePopUpBox.classList.remove('active');
+};
+
+const checkLocalStorage = () => {
+  let arr;
+
+  if(localStorage.getItem('palettes') === null){
+    arr = [];
+  } else {
+    arr = JSON.parse(localStorage.getItem('palettes'));
+  }
+
+  return arr;
+}
+
+const saveToLocal = (paletteObj) => {
+  let localPalettes = checkLocalStorage();
+
+  localPalettes.push(paletteObj);
+  localStorage.setItem('palettes', JSON.stringify(localPalettes));
+};
+
+const generateLibrary = (savedPalettes, paletteObj) => {
+  generatePallete(savedPalettes, paletteObj);
+};
+
+
+
+const savePalette = () => {
+  saveContainer.classList.remove('active');
+  savePopUpBox.classList.remove('active');
+
+  const paletteName = saveInput.value;
+  const paletteColorsArr = [];
+
+  currentHexes.forEach( (hex) => {
+    paletteColorsArr.push(hex.innerText);
+  });
+
+  // Generate Object
+  let paletteIndex;
+  const paletteObjects = JSON.parse(localStorage.getItem('palettes'));
+  if(paletteObjects){
+    paletteIndex = paletteObjects.length;
+  } else {
+    paletteIndex = savedPalettes.length;
+  }
+
+  const paletteObj = {
+    name: paletteName,
+    colors: paletteColorsArr,
+    index: paletteIndex 
+  }
+
+  savedPalettes.push(paletteObj); // [{}, {}, {}]
+  
+  // save to local storage
+  saveToLocal(paletteObj);
+
+  // reset the input value after saving
+  saveInput.value = '';
+
+  // generate library
+  generateLibrary(savedPalettes, paletteObj);
+};
+
+const openLibrary = () => {
+  libraryContainer.classList.add('active');
+  libraryPopUpBox.classList.add('active');
+};
+const closeLibrary = () => {
+  libraryContainer.classList.remove('active');
+  libraryPopUpBox.classList.remove('active');
+};
+
+
+
+const getFromLocal = () => {
+  let paletteObjects = checkLocalStorage();
+
+  paletteObjects.forEach( (paletteObj) => {
+    generatePallete(paletteObjects, paletteObj);
+  });
+
+  savedPalettes = [...paletteObjects];
+}
+
 
 // SAVE TO PALETTE AND LOCAL STORAGE EVENT LISTENERS
 saveBtn.addEventListener('click', openPaletteSave);
@@ -381,3 +454,7 @@ submitSave.addEventListener('click', savePalette);
 
 libraryBtn.addEventListener('click', openLibrary);
 closeLibraryPopUpBox.addEventListener('click', closeLibrary);
+
+
+displayColor();
+getFromLocal();
