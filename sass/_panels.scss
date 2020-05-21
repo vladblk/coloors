@@ -1,0 +1,34 @@
+.panel {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+
+  height: 20vh;
+
+  &__control {
+    font-size: 1.2rem;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    &-btn {
+      font-size: inherit;
+      margin: 1rem;
+      padding: 1rem 2rem;
+      background: rgb(31, 33, 63);
+      border: none;
+      color: white;
+      cursor: pointer;
+      border-radius: 1rem;
+
+      &:focus {
+        outline: none;
+      }
+    }
+
+    &-text {
+      font-size: inherit;
+    }
+  }
+}

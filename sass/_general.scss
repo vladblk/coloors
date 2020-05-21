@@ -1,0 +1,16 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Muli', sans-serif;
+  color: rgb(51, 51, 51);  
+}
+button {
+  font-family: inherit;
+}
+path, i, svg {
+  pointer-events: none;
+}
