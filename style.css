@@ -341,4 +341,25 @@ path, i, svg {
   background-color: #2e2e2e;
   color: white;
 }
+
+.library__container-popup__palette-container-delete {
+  border: none;
+  font-size: 2rem;
+  margin-left: 1rem;
+  cursor: pointer;
+  color: red;
+  -webkit-transition: -webkit-transform .2s ease-in-out;
+  transition: -webkit-transform .2s ease-in-out;
+  transition: transform .2s ease-in-out;
+  transition: transform .2s ease-in-out, -webkit-transform .2s ease-in-out;
+}
+
+.library__container-popup__palette-container-delete:focus {
+  outline: none;
+}
+
+.library__container-popup__palette-container-delete:hover {
+  -webkit-transform: translateY(-2px);
+          transform: translateY(-2px);
+}
 /*# sourceMappingURL=style.css.map */
