@@ -282,6 +282,60 @@ const closeLibraryPopUpBox = document.querySelector('.library__container-popup-c
 // Palettes saved to local storage
 let savedPalettes = [];
 
+const savePalette = () => {
+  saveContainer.classList.remove('active');
+  savePopUpBox.classList.remove('active');
+
+  const paletteName = saveInput.value;
+  const paletteColorsArr = [];
+
+  currentHexes.forEach( (hex) => {
+    paletteColorsArr.push(hex.innerText);
+  });
+
+  // Generate Object
+  // let paletteIndex;
+  // const paletteObjects = JSON.parse(localStorage.getItem('palettes'));
+  // if(paletteObjects){
+  //   paletteIndex = paletteObjects.length;
+  // } else {
+  //   paletteIndex = savedPalettes.length;
+  // }
+
+  let paletteIndex;
+    if(savedPalettes.length > 0){
+      paletteIndex = savedPalettes[savedPalettes.length - 1].index + 1;
+    } else {
+      paletteIndex = 0;
+    }
+
+  const paletteObj = {
+    name: paletteName,
+    colors: paletteColorsArr,
+    index: paletteIndex 
+  }
+
+  savedPalettes.push(paletteObj); // [{}, {}, {}]
+  
+  // save to local storage
+  saveToLocal(paletteObj);
+
+  // reset the input value after saving
+  saveInput.value = '';
+
+  // generate library
+  generateLibrary(savedPalettes, paletteObj);
+};
+
+const openLibrary = () => {
+  libraryContainer.classList.add('active');
+  libraryPopUpBox.classList.add('active');
+};
+const closeLibrary = () => {
+  libraryContainer.classList.remove('active');
+  libraryPopUpBox.classList.remove('active');
+};
+
 // SAVE TO PALETTE AND LOCAL STORAGE FUNCTIONS
 const generatePallete = (palette, paletteObj) => {
   const paletteContainer = document.createElement('div');
@@ -304,10 +358,16 @@ const generatePallete = (palette, paletteObj) => {
   paletteContainerSelectBtn.classList.add(paletteObj.index);
   paletteContainerSelectBtn.innerText = 'Select';
 
+  const paletteContainerDeleteBtn = document.createElement('button');
+  paletteContainerDeleteBtn.classList.add('library__container-popup__palette-container-delete');
+  paletteContainerDeleteBtn.classList.add(paletteObj.index);
+  paletteContainerDeleteBtn.innerHTML = '<i class="far fa-trash-alt"></i>';
+
   // append to library
   paletteContainer.appendChild(paletteContainerTitle);
   paletteContainer.appendChild(paletteContainerPreview);
   paletteContainer.appendChild(paletteContainerSelectBtn);
+  paletteContainer.appendChild(paletteContainerDeleteBtn);
 
   libraryPopUpBox.appendChild(paletteContainer);
 
@@ -318,7 +378,13 @@ const generatePallete = (palette, paletteObj) => {
 
     // get the index of the selected pelette container
     // const paletteIndex = e.target.classList[1];
-    const paletteIndex = paletteObj.index;
+    // const paletteIndex = paletteObj.index;
+    let paletteIndex;
+    if(savedPalettes.length > 0){
+      paletteIndex = savedPalettes[savedPalettes.length - 1].index + 1;
+    } else {
+      paletteIndex = 0;
+    }
 
     // reset the inital colors array
     initialColors = [];
@@ -349,6 +415,26 @@ const generatePallete = (palette, paletteObj) => {
     // reset sliders for the saved colors
     resetInputs();
   });
+
+  paletteContainerDeleteBtn.addEventListener('click', () => {
+    const savedPalettes = checkLocalStorage();
+
+    const itemUI = event.target.parentElement;
+    
+    itemUI.remove();
+
+    const itemStorage = event.target.parentElement.children[0].innerText;
+    console.log(itemStorage);
+
+    for(let i = savedPalettes.length - 1; i >= 0; i--){
+      if(savedPalettes[i].name === itemStorage){
+        savedPalettes.splice(i, 1);
+      }
+    }
+
+
+    localStorage.setItem('palettes', JSON.stringify(savedPalettes));
+  });
 };
 
 const openPaletteSave = () => {
@@ -375,7 +461,7 @@ const checkLocalStorage = () => {
 }
 
 const saveToLocal = (paletteObj) => {
-  let localPalettes = checkLocalStorage();
+  const localPalettes = checkLocalStorage();
 
   localPalettes.push(paletteObj);
   localStorage.setItem('palettes', JSON.stringify(localPalettes));
@@ -384,56 +470,6 @@ const saveToLocal = (paletteObj) => {
 const generateLibrary = (savedPalettes, paletteObj) => {
   generatePallete(savedPalettes, paletteObj);
 };
-
-
-
-const savePalette = () => {
-  saveContainer.classList.remove('active');
-  savePopUpBox.classList.remove('active');
-
-  const paletteName = saveInput.value;
-  const paletteColorsArr = [];
-
-  currentHexes.forEach( (hex) => {
-    paletteColorsArr.push(hex.innerText);
-  });
-
-  // Generate Object
-  let paletteIndex;
-  const paletteObjects = JSON.parse(localStorage.getItem('palettes'));
-  if(paletteObjects){
-    paletteIndex = paletteObjects.length;
-  } else {
-    paletteIndex = savedPalettes.length;
-  }
-
-  const paletteObj = {
-    name: paletteName,
-    colors: paletteColorsArr,
-    index: paletteIndex 
-  }
-
-  savedPalettes.push(paletteObj); // [{}, {}, {}]
-  
-  // save to local storage
-  saveToLocal(paletteObj);
-
-  // reset the input value after saving
-  saveInput.value = '';
-
-  // generate library
-  generateLibrary(savedPalettes, paletteObj);
-};
-
-const openLibrary = () => {
-  libraryContainer.classList.add('active');
-  libraryPopUpBox.classList.add('active');
-};
-const closeLibrary = () => {
-  libraryContainer.classList.remove('active');
-  libraryPopUpBox.classList.remove('active');
-};
-
 
 
 const getFromLocal = () => {
